@@ -1,0 +1,16 @@
+# Gradle
+/build/
+/.gradle/
+
+# Eclipse
+/.project
+/.classpath
+/.settings/
+/bin/
+
+# NetBeans
+/nbproject/
+
+# System
+.DS_Store
+Thumbs.db
