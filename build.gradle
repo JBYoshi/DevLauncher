@@ -39,5 +39,5 @@ repositories {
     }
 }
 dependencies {
-    compile "com.mojang:authlib:1.5.16"
+    compile "com.mojang:authlib:1.5.21"
 }
