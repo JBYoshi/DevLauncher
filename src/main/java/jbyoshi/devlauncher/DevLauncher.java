@@ -47,7 +47,7 @@ public final class DevLauncher {
 
 		final JFrame frame = new JFrame("Minecraft Dev Launcher");
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		final DefaultListModel<Profile> list = new DefaultListModel<>();
+		final DefaultListModel<Profile> list = new DefaultListModel<Profile>();
 		for (OnlineProfile prof : LauncherProfiles.INSTANCE.getProfiles()) {
 			list.addElement(prof);
 		}

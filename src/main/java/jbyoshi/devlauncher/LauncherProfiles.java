@@ -27,13 +27,18 @@ public final class LauncherProfiles {
 	public static LauncherProfiles INSTANCE;
 
 	static void modified() {
-		try (FileWriter writer = new FileWriter(getFile())) {
-			JsonObject obj = deepCopy(INSTANCE.everythingElse);
-			obj.addProperty("clientToken", INSTANCE.clientToken);
-			obj.add("authenticationDatabase",
-					GSON.toJsonTree(INSTANCE.authenticationDatabase.profiles));
-			GSON.toJson(obj, writer);
-			System.out.println("Profiles saved");
+		try {
+			FileWriter writer = new FileWriter(getFile());
+			try {
+				JsonObject obj = deepCopy(INSTANCE.everythingElse);
+				obj.addProperty("clientToken", INSTANCE.clientToken);
+				obj.add("authenticationDatabase", GSON.toJsonTree(INSTANCE.authenticationDatabase.profiles));
+				GSON.toJson(obj, writer);
+				System.out.println("Profiles saved");
+			} finally {
+				writer.flush();
+				writer.close();
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -57,8 +62,7 @@ public final class LauncherProfiles {
 			// Nulls and primitives are immutable
 			return from;
 		}
-		throw new AssertionError("Unknown element type "
-				+ from.getClass().getName());
+		throw new AssertionError("Unknown element type " + from.getClass().getName());
 	}
 
 	private static JsonObject deepCopyObj(JsonObject from) {
@@ -79,27 +83,29 @@ public final class LauncherProfiles {
 
 	public static LauncherProfiles load() throws IOException {
 		System.out.println("Loading Minecraft profiles");
-		try (FileReader reader = new FileReader(getFile())) {
-			LauncherProfiles profiles = new LauncherProfiles();
-			JsonObject e = new JsonParser().parse(reader).getAsJsonObject();
-			for (Map.Entry<String, JsonElement> entry : e.entrySet()) {
-				if (entry.getKey().equals("clientToken")) {
-					profiles.clientToken = entry.getValue().getAsString();
-				} else if (entry.getKey().equals("authenticationDatabase")) {
-					JsonObject o = entry.getValue().getAsJsonObject();
-					for (Map.Entry<String, JsonElement> entry1 : o.entrySet()) {
-						profiles.authenticationDatabase.profiles.put(
-								UUIDTypeAdapter.fromString(entry1.getKey()),
-								GSON.fromJson(entry1.getValue(),
-										OnlineProfile.class));
+		try {
+			FileReader reader = new FileReader(getFile());
+			try {
+				LauncherProfiles profiles = new LauncherProfiles();
+				JsonObject e = new JsonParser().parse(reader).getAsJsonObject();
+				for (Map.Entry<String, JsonElement> entry : e.entrySet()) {
+					if (entry.getKey().equals("clientToken")) {
+						profiles.clientToken = entry.getValue().getAsString();
+					} else if (entry.getKey().equals("authenticationDatabase")) {
+						JsonObject o = entry.getValue().getAsJsonObject();
+						for (Map.Entry<String, JsonElement> entry1 : o.entrySet()) {
+							profiles.authenticationDatabase.profiles.put(UUIDTypeAdapter.fromString(entry1.getKey()),
+									GSON.fromJson(entry1.getValue(), OnlineProfile.class));
+						}
+					} else {
+						profiles.everythingElse.add(entry.getKey(), entry.getValue());
 					}
-				} else {
-					profiles.everythingElse.add(entry.getKey(),
-							entry.getValue());
 				}
+				INSTANCE = profiles;
+				return INSTANCE;
+			} finally {
+				reader.close();
 			}
-			INSTANCE = profiles;
-			return INSTANCE;
 		} finally {
 			if (INSTANCE == null) {
 				INSTANCE = new LauncherProfiles();
@@ -147,8 +153,7 @@ public final class LauncherProfiles {
 		return new Iterable<OnlineProfile>() {
 			@Override
 			public Iterator<OnlineProfile> iterator() {
-				final Iterator<OnlineProfile> real = authenticationDatabase.profiles
-						.values().iterator();
+				final Iterator<OnlineProfile> real = authenticationDatabase.profiles.values().iterator();
 				return new Iterator<OnlineProfile>() {
 					@Override
 					public void remove() {
@@ -170,10 +175,9 @@ public final class LauncherProfiles {
 		};
 	}
 
-	private static final Gson GSON = new GsonBuilder().registerTypeAdapter(
-			UUID.class, new UUIDTypeAdapter()).create();
+	private static final Gson GSON = new GsonBuilder().registerTypeAdapter(UUID.class, new UUIDTypeAdapter()).create();
 
 	private static final class AuthDatabase {
-		private final Map<UUID, OnlineProfile> profiles = new HashMap<>();
+		private final Map<UUID, OnlineProfile> profiles = new HashMap<UUID, OnlineProfile>();
 	}
 }
