@@ -50,7 +50,7 @@ public class UserFactory {
 
 	public User getUserByUsername(String username) throws AuthenticationException {
 		final MutableBoolean success = new MutableBoolean(false);
-		final MutableObject<GameProfile> result = new MutableObject<GameProfile>();
+		final MutableObject<GameProfile> result = new MutableObject<>();
 		final MutableObject<Exception> error = new MutableObject<Exception>(
 				new RuntimeException("An unknown error ocurred!"));
 		repo.findProfilesByNames(new String[] { username }, Agent.MINECRAFT, new ProfileLookupCallback() {

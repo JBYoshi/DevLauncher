@@ -28,8 +28,8 @@ processResources {
     from 'LICENSE.txt'
 }
 
-sourceCompatibility = '1.6'
-targetCompatibility = '1.6'
+sourceCompatibility = '1.7'
+targetCompatibility = '1.7'
 
 repositories {
     mavenLocal()

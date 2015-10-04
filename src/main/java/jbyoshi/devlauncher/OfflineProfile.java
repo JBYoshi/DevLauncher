@@ -87,7 +87,7 @@ public final class OfflineProfile implements Profile {
 
 	static {
 		PREFS = Preferences.userNodeForPackage(OfflineProfile.class);
-		profiles = new LinkedHashSet<OfflineProfile>();
+		profiles = new LinkedHashSet<>();
 		String names = PREFS.get("offline", "").trim();
 		if (names.length() > 0) {
 			for (String s : names.split(" ")) {
