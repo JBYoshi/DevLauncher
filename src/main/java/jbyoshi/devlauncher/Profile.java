@@ -15,8 +15,6 @@
  */
 package jbyoshi.devlauncher;
 
-import com.mojang.authlib.*;
-
 public interface Profile {
 	@Override
 	public String toString();
@@ -26,8 +24,6 @@ public interface Profile {
 	public String getArgs();
 
 	public void onRemoved();
-
-	public GameProfile getProfile();
 
 	public String getAccessToken();
 }

@@ -21,7 +21,6 @@ import java.util.*;
 import javax.swing.*;
 
 import com.google.gson.*;
-import com.mojang.authlib.*;
 import com.mojang.authlib.exceptions.*;
 import com.mojang.authlib.properties.*;
 
@@ -167,11 +166,6 @@ public final class OnlineProfile implements Profile {
 	@Override
 	public void onRemoved() {
 		LauncherProfiles.INSTANCE.removeProfile(this);
-	}
-
-	@Override
-	public GameProfile getProfile() {
-		return user.getProfile();
 	}
 
 	@Override

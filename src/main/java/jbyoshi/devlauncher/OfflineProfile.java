@@ -18,9 +18,6 @@ package jbyoshi.devlauncher;
 import java.util.*;
 import java.util.prefs.*;
 
-import com.google.common.base.*;
-import com.mojang.authlib.*;
-
 public final class OfflineProfile implements Profile {
 	private static final Preferences PREFS;
 
@@ -97,11 +94,6 @@ public final class OfflineProfile implements Profile {
 				profiles.add(new OfflineProfile(s));
 			}
 		}
-	}
-
-	@Override
-	public GameProfile getProfile() {
-		return new GameProfile(UUID.nameUUIDFromBytes(("OfflinePlayer:" + name).getBytes(Charsets.UTF_8)), name);
 	}
 
 	@Override
