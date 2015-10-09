@@ -1,15 +1,19 @@
 # Gradle
-/build/
-/.gradle/
+build/
+.gradle/
 
 # Eclipse
-/.project
-/.classpath
-/.settings/
-/bin/
+.project
+.classpath
+.settings/
+bin/
 
 # NetBeans
-/nbproject/
+nbproject/
+
+# IntelliJ
+.idea/
+*.iml
 
 # System
 .DS_Store
