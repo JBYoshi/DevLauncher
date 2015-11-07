@@ -78,7 +78,7 @@ public final class LauncherProfiles {
 	}
 
 	public static LauncherProfiles load() throws IOException {
-		System.out.println("Loading Minecraft profiles");
+		System.out.println("Loading Minecraft profiles from " + DevLauncher.workingDirectory);
 		try (FileReader reader = new FileReader(getFile())) {
 			LauncherProfiles profiles = new LauncherProfiles();
 			JsonObject e = new JsonParser().parse(reader).getAsJsonObject();

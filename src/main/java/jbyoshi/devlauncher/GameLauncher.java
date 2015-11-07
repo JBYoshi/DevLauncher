@@ -79,11 +79,11 @@ public final class GameLauncher {
 		ClassLoader cl = GameLauncher.class.getClassLoader();
 		try {
 			Class.forName("org.spongepowered.asm.launch.IMixinLaunchAgent");
-			System.out.println("SpongePowered Mixin API 0.4.5 found, adding tweaker");
+			System.out.println("SpongePowered Mixin API 0.4.5+ found, adding tweaker");
 			args += " --tweakClass org.spongepowered.asm.launch.MixinTweaker";
 			System.setProperty("mixin.checks", "true");
 		} catch (ClassNotFoundException e) {
-			System.out.println("SpongePowered Mixin API 0.4.5 not found, skipping");
+			System.out.println("SpongePowered Mixin API 0.4.5+ not found, skipping");
 		}
 		String[] argsArray = args.trim().split(" ");
 		String[] allArgs = new String[argsArray.length + extraArgs.length];

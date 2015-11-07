@@ -137,7 +137,6 @@ public final class DevLauncher {
 		} else {
 			workingDirectory = new File(userHome, "minecraft/");
 		}
-		System.out.println(workingDirectory);
 	}
 
 	public void start(Profile prof) {
