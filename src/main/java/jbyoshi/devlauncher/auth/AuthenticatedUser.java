@@ -15,8 +15,6 @@
  */
 package jbyoshi.devlauncher.auth;
 
-import org.apache.commons.lang3.*;
-
 import com.mojang.authlib.*;
 import com.mojang.authlib.exceptions.*;
 
