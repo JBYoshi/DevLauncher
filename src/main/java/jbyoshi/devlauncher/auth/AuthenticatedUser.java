@@ -20,20 +20,18 @@ import org.apache.commons.lang3.*;
 import com.mojang.authlib.*;
 import com.mojang.authlib.exceptions.*;
 
+import java.util.Optional;
+
 public final class AuthenticatedUser extends User {
 	private final String token;
 	private final String id;
 
 	AuthenticatedUser(UserAuthentication login, UserFactory factory) {
 		// If the profile is non-null, it will be complete.
-		super(checkLoggedIn(login), factory);
+		super(Optional.of(login).filter(UserAuthentication::isLoggedIn).orElseThrow(() -> new IllegalArgumentException(
+				"auth.logIn() was not called!")).getSelectedProfile(), factory);
 		this.token = login.getAuthenticatedToken();
 		this.id = login.getUserID();
-	}
-
-	private static GameProfile checkLoggedIn(UserAuthentication auth) {
-		Validate.isTrue(auth.isLoggedIn(), "auth.logIn() was not called!");
-		return auth.getSelectedProfile();
 	}
 
 	public String getAccessToken() {
